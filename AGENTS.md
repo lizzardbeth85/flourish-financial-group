@@ -1,6 +1,6 @@
 # Flourish Financial Group — website instructions for AI agents
 
-This is the public website for Flourish Financial Group, LLC (Beth Hacker, AFC®, MBA). The owner, Beth, is not a developer. She edits this site by talking to you. Explain what you are doing in plain English, keep changes small, and always leave the site in a working state.
+This is the public website for Flourish Financial Group (Beth Hacker, AFC®, MBA). The owner, Beth, is not a developer. She edits this site by talking to you. Explain what you are doing in plain English, keep changes small, and always leave the site in a working state.
 
 ## What this is
 
