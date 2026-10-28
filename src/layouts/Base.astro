@@ -28,9 +28,15 @@ const nav = [
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
+    <!-- Side nav: fixed on the left at desktop width, a slide-out drawer on phones. -->
     <header class="site">
-      <div class="wrap">
+      <div class="topbar">
         <a class="brand" href="/"><span class="brand-name">{site.businessName}</span><span class="brand-sub">{site.subtitle}</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="sidenav">
+          <span class="nav-toggle-bars" aria-hidden="true"></span><span class="visually-hidden">Menu</span>
+        </button>
+      </div>
+      <div class="sidenav" id="sidenav">
         <nav class="primary" aria-label="Primary">
           <ul>
             {nav.map(([href, label]) => (
@@ -38,9 +44,15 @@ const nav = [
             ))}
           </ul>
         </nav>
-        <a class="btn btn-primary" href={site.bookingUrl}>Book a free consult</a>
+        <div class="sidenav-foot">
+          <a class="btn btn-primary" href={site.bookingUrl}>Book a free consult</a>
+          <p><a href={site.phoneHref}>{site.phone}</a><br /><span>{site.hours}</span></p>
+          <Leaf class="leaf leaf-side" />
+        </div>
       </div>
     </header>
+    <div class="nav-scrim" hidden></div>
+    <div class="page">
     <main id="main">
       <slot />
     </main>
@@ -57,5 +69,43 @@ const nav = [
         <p class="disclaimer" style="grid-column: 1 / -1">{site.ownerName} provides fee-only financial counseling and education. She is not an attorney, tax preparer, investment adviser, or Certified Divorce Financial Analyst®, and nothing on this site or in a session is legal, tax, or investment advice. AFC® and Accredited Financial Counselor® are marks of AFCPE®. CDFA® is a mark of the Institute for Divorce Financial Analysts.</p>
       </div>
     </footer>
+    </div>
+    <script>
+      // Phone drawer: open/close the side nav.
+      const toggle = document.querySelector('.nav-toggle');
+      const scrim = document.querySelector('.nav-scrim');
+      const setOpen = (open) => {
+        document.body.classList.toggle('nav-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        scrim.hidden = !open;
+      };
+      toggle.addEventListener('click', () => setOpen(!document.body.classList.contains('nav-open')));
+      scrim.addEventListener('click', () => setOpen(false));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+      // Parallax: anything with data-speed drifts at that fraction of the scroll.
+      // Fade-up: sections and cards ease in as they enter the screen.
+      // Both are skipped when the visitor has asked for reduced motion.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const layers = [...document.querySelectorAll('[data-speed]')];
+        let ticking = false;
+        const move = () => {
+          for (const el of layers) {
+            const box = el.parentElement.getBoundingClientRect();
+            const offset = (box.top + box.height / 2 - innerHeight / 2) * Number(el.dataset.speed);
+            el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
+          }
+          ticking = false;
+        };
+        addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(move); } }, { passive: true });
+        addEventListener('resize', move);
+        move();
+
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }, { rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll('main .section:not(.hero-band) .wrap > *, main .card').forEach((el) => { el.classList.add('reveal'); io.observe(el); });
+      }
+    </script>
   </body>
 </html>

@@ -5,7 +5,9 @@ import Leaf from '../components/Leaf.astro';
 ---
 <Base title="Fee-only financial counseling" description={site.tagline}>
   <section class="section band-navy hero-band">
-    <Leaf class="leaf leaf-hero" />
+    <div class="hero-glow hero-glow-1" data-speed="-0.25"></div>
+    <div class="hero-glow hero-glow-2" data-speed="0.2"></div>
+    <Leaf class="leaf leaf-hero" data-speed="-0.35" />
     <div class="wrap hero">
       <div>
         <p class="eyebrow">{site.tagline}</p>
@@ -14,14 +16,14 @@ import Leaf from '../components/Leaf.astro';
         <p class="lede" style="color:#dbe3ee">I'm Beth Hacker. For fifteen years I've helped military families, people starting over after divorce, and first-paycheck young adults turn a pile of statements into a plan they can actually run. No products, no commissions. Just the math and the next step.</p>
         <p><a class="btn btn-primary" href={site.bookingUrl}>Book a free 15-minute consult</a> <a class="btn btn-secondary" href="/services">See services &amp; prices</a></p>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual" data-speed="0.12">
         <img class="hero-photo" src="/images/beth.jpg" width="1023" height="1023" alt="Beth Hacker, smiling, in a floral blouse" loading="eager" />
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="wrap grid">
+    <div class="wrap grid stats">
       <div><span class="stat">600+</span>military members and families counseled</div>
       <div><span class="stat">6</span>states served on military installations</div>
       <div><span class="stat">60+</span>financial seminars written and taught</div>
@@ -57,6 +59,7 @@ import Leaf from '../components/Leaf.astro';
   </section>
 
   <section class="section band-mint">
+    <Leaf class="leaf leaf-mint" data-speed="-0.3" />
     <div class="wrap">
       <h2>Weekly group cohort</h2>
       <p>A small group working through the nine AFC® competencies together over six months, with a private community and money-tracking tools included. The first cohort opens when five people are on the list.</p>
